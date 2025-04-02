@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Traffic Counter For Testing this site </title>
+    <script>
+        // Initialize the traffic count if not already done
+        if (!localStorage.getItem('visitedUserAgents')) {
+            localStorage.setItem('visitedUserAgents', JSON.stringify([]));
+        }
+
+        // Check the user agent
+        function trackTraffic() {
+            const userAgent = navigator.userAgent;
+            const visitedUserAgents = JSON.parse(localStorage.getItem('visitedUserAgents'));
+
+            // Check if the user agent has been counted already
+            if (!visitedUserAgents.includes(userAgent)) {
+                visitedUserAgents.push(userAgent);
+                localStorage.setItem('visitedUserAgents', JSON.stringify(visitedUserAgents));
+
+                // Update the counter (you could use a backend or local storage to persist this)
+                let currentCount = parseInt(localStorage.getItem('trafficCount') || '0');
+                currentCount++;
+                localStorage.setItem('trafficCount', currentCount);
+
+                // Display the traffic count
+                document.getElementById('trafficCount').innerText = "Traffic Count: " + currentCount;
+            }
+        }
+
+        window.onload = trackTraffic;
+    </script>
+</head>
+<body>
+    <div>
+        <h1>Welcome to the Traffic Counting Website!</h1>
+        <p id="trafficCount">Traffic Count: 0</p>
+        <p>Click anywhere on the page to count your visit.</p>
+        <p>Refresh the page to reset the count.</p>
+    </div>
+</body>
+</html>
