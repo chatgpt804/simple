@@ -3,42 +3,68 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Traffic Counter For Testing this site </title>
+    <title>Help Support My Hospital Rentals</title>
     <script>
-        // Initialize the traffic count if not already done
+        // Initialize traffic count and visited user agents if not already stored
         if (!localStorage.getItem('visitedUserAgents')) {
             localStorage.setItem('visitedUserAgents', JSON.stringify([]));
         }
+        if (!localStorage.getItem('trafficCount')) {
+            localStorage.setItem('trafficCount', '0');
+        }
 
-        // Check the user agent
+        // Function to track unique user agents and count traffic
         function trackTraffic() {
-            const userAgent = navigator.userAgent;
-            const visitedUserAgents = JSON.parse(localStorage.getItem('visitedUserAgents'));
+            const userAgent = navigator.userAgent; // Get the user agent of the browser
+            const visitedUserAgents = JSON.parse(localStorage.getItem('visitedUserAgents')); // Get stored user agents
 
-            // Check if the user agent has been counted already
+            // If the user agent hasn't been counted yet
             if (!visitedUserAgents.includes(userAgent)) {
-                visitedUserAgents.push(userAgent);
-                localStorage.setItem('visitedUserAgents', JSON.stringify(visitedUserAgents));
+                visitedUserAgents.push(userAgent); // Add the user agent to the list
+                localStorage.setItem('visitedUserAgents', JSON.stringify(visitedUserAgents)); // Store the updated list
 
-                // Update the counter (you could use a backend or local storage to persist this)
+                // Increment the traffic count
                 let currentCount = parseInt(localStorage.getItem('trafficCount') || '0');
                 currentCount++;
-                localStorage.setItem('trafficCount', currentCount);
+                localStorage.setItem('trafficCount', currentCount); // Update the traffic count
 
-                // Display the traffic count
+                // Update the displayed traffic count on the page
                 document.getElementById('trafficCount').innerText = "Traffic Count: " + currentCount;
             }
         }
 
+        // Execute when the page loads
         window.onload = trackTraffic;
+
+        // Optional: Allow manual refresh of the count
+        function resetCount() {
+            localStorage.setItem('visitedUserAgents', JSON.stringify([]));
+            localStorage.setItem('trafficCount', '0');
+            document.getElementById('trafficCount').innerText = "Traffic Count: 0";
+        }
     </script>
 </head>
 <body>
     <div>
-        <h1>Welcome to the Traffic Counting Website!</h1>
+        <h1>Help Support My Hospital Rentals</h1>
         <p id="trafficCount">Traffic Count: 0</p>
-        <p>Click anywhere on the page to count your visit.</p>
-        <p>Refresh the page to reset the count.</p>
+        <p><strong>Description:</strong><br>
+        Hi there, I am currently facing a challenging situation where I urgently need funds to cover my hospital rentals. Unfortunately, due to financial constraints, I can't afford to make the payments, and this is where you can help!</p>
+
+        <p>By visiting my website and interacting with it, you are not only helping me with my cause but also contributing to a small step that can make a big difference. Each visit to the page counts towards improving my situation and getting closer to my goal.</p>
+
+        <p><strong>How It Works:</strong></p>
+        <ul>
+            <li>Every click on the website counts as support.</li>
+            <li>You don’t need to make any purchases or donations—just your presence makes a huge impact.</li>
+            <li>I’m using this website to track visits as part of a broader effort to gain attention and reach my goal.</li>
+        </ul>
+
+        <p>Your support means the world to me, and I’m incredibly grateful for your time. Every visit counts toward helping me manage my hospital costs. Thank you so much for your help!</p>
+        
+        <p>Click anywhere on the page to count your visit (if you're a new visitor).</p>
+        <p>Refresh the page to reset the count (or use the reset button below).</p>
+        <button onclick="resetCount()">Reset Count</button>
     </div>
 </body>
 </html>
