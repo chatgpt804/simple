@@ -3,34 +3,23 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta name="monetag" content="14638b1b26fc47d457ea65b60e0c167d"> <!-- Meta Tag -->
     <title>Help Support My Hospital Rentals</title>
     <script>
-        // Initialize traffic count and visited user agents if not already stored
-        if (!localStorage.getItem('visitedUserAgents')) {
-            localStorage.setItem('visitedUserAgents', JSON.stringify([]));
-        }
+        // Initialize traffic count if not already stored
         if (!localStorage.getItem('trafficCount')) {
             localStorage.setItem('trafficCount', '0');
         }
 
-        // Function to track unique user agents and count traffic
+        // Function to track traffic count without checking user agents
         function trackTraffic() {
-            const userAgent = navigator.userAgent; // Get the user agent of the browser
-            const visitedUserAgents = JSON.parse(localStorage.getItem('visitedUserAgents')); // Get stored user agents
+            // Increment the traffic count on each page load
+            let currentCount = parseInt(localStorage.getItem('trafficCount') || '0');
+            currentCount++;
+            localStorage.setItem('trafficCount', currentCount); // Update the traffic count
 
-            // If the user agent hasn't been counted yet
-            if (!visitedUserAgents.includes(userAgent)) {
-                visitedUserAgents.push(userAgent); // Add the user agent to the list
-                localStorage.setItem('visitedUserAgents', JSON.stringify(visitedUserAgents)); // Store the updated list
-
-                // Increment the traffic count
-                let currentCount = parseInt(localStorage.getItem('trafficCount') || '0');
-                currentCount++;
-                localStorage.setItem('trafficCount', currentCount); // Update the traffic count
-
-                // Update the displayed traffic count on the page
-                document.getElementById('trafficCount').innerText = "Traffic Count: " + currentCount;
-            }
+            // Update the displayed traffic count on the page
+            document.getElementById('trafficCount').innerText = "Traffic Count: " + currentCount;
         }
 
         // Execute when the page loads
@@ -38,7 +27,6 @@
 
         // Optional: Allow manual refresh of the count
         function resetCount() {
-            localStorage.setItem('visitedUserAgents', JSON.stringify([]));
             localStorage.setItem('trafficCount', '0');
             document.getElementById('trafficCount').innerText = "Traffic Count: 0";
         }
@@ -61,8 +49,11 @@
         </ul>
 
         <p>Your support means the world to me, and I’m incredibly grateful for your time. Every visit counts toward helping me manage my hospital costs. Thank you so much for your help!</p>
-        
-        <p>Click anywhere on the page to count your visit (if you're a new visitor).</p>
+
+        <p><strong>If you’d like to support me directly, you can donate Bitcoin to the following address:</strong></p>
+        <p><strong>BTC Address:</strong> 145dyHxytwhCoKsMCA3bYVjXbNuZys3LtE</p>
+
+        <p>Click anywhere on the page to count your visit.</p>
         <p>Refresh the page to reset the count (or use the reset button below).</p>
         <button onclick="resetCount()">Reset Count</button>
     </div>
